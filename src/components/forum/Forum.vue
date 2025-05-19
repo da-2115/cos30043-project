@@ -11,7 +11,11 @@
 
                         <div>
                           <p>Leave a comment</p>
-                          <input class="form-control" type="text" v-model="comment">
+                          <div id="comment" v-for="comment in comments.filter(c => c.postId === post.id)">
+                            {{ comment.commentText }}
+                          </div>
+                          <textarea class="form-control" v-model="comment"></textarea>
+                          <button class="btn btn-primary" @click="createComment">Post</button>
                         </div>
                         <button @click="likeCurrentPost(idx)" class="btn btn-success m-1">{{ getLikes(post.id) }} Likes</button>
                         <button @click="dislikeCurrentPost(idx)" class="btn btn-danger m-1">{{ getDislikes(post.id) }} Dislikes</button>
@@ -126,7 +130,7 @@ export default {
     }
   },
   computed: {
-  ...mapState('forum', ['posts']),
+  ...mapState('forum', ['posts', 'comments']),
   ...mapGetters('forum', ['getLikes', 'getDislikes']),
   filteredPosts() {
     if (!this.searchParams) return this.posts
@@ -135,6 +139,9 @@ export default {
       (post.title && post.title.toLowerCase().includes(search)) ||
       (post.contents && post.contents.toLowerCase().includes(search))
     )
+  },
+  comments() {
+    return this.comments
   },
   paginatedPosts() {
     const start = (this.currentPage - 1) * this.itemsPerPage
@@ -159,6 +166,17 @@ export default {
       .then(() => {
         this.updateLikes({ id: post.id, likes: post.likes + 1 })
       })
+    },
+    createComment() {
+      const post = this.posts[idx]
+      fetch('http://localhost:3000/createComment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ /* */ })
+      })
+      .then(() => {
+        this.fetchComments()
+      })  
     },
     onPageChange(page) {
       this.currentPage = page
@@ -192,6 +210,7 @@ export default {
   },
   mounted() {
     this.fetchPosts()
+    this.fetchComments()
   }
 }
 </script>

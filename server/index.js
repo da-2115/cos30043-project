@@ -27,6 +27,17 @@ app.get('/posts', (req, res) => {
     })
 })
 
+app.get('/comments', (req, res) => {
+    db.query('SELECT * FROM forumComments', (err, results) => {
+        if ( err ) {
+            console.log(err);
+            return res.status(500).json({ error: err.message })
+        }
+
+        res.json(results)
+    })
+})
+
 app.post('/likePost', (req, res) => {
     db.query(`UPDATE forumPosts SET likes=${req.body.likes} WHERE id=${req.body.id}`, (err, results) => {
         if ( err ) {
@@ -51,6 +62,17 @@ app.post('/dislikePost', (req, res) => {
 
 app.post('/createPost', (req, res) => {
     db.query(`INSERT INTO forumPosts VALUES (${req.body.id}, '${req.body.title}', '${req.body.contents}', ${req.body.likes}, ${req.body.dislikes})`, (err, results) => {
+        if ( err ) {
+            console.log(err);
+            return res.status(500).json({ error: err.message })
+        }
+
+        res.json(results)
+    })
+})
+
+app.post('/createComment', (req, res) => {
+    db.query(`INSERT INTO forumComments VALUES (${req.body.id}, '${req.body.forumPostId}', '${req.body.commentText}'`, (err, results) => {
         if ( err ) {
             console.log(err);
             return res.status(500).json({ error: err.message })

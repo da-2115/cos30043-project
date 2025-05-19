@@ -2,12 +2,16 @@ export default {
     namespaced: true,
     state() {
         return {
-            posts: []
+            posts: [],
+            comments: []
         }
     },
     mutations: {
         setPosts(state, posts) {
             state.posts = posts
+        },
+        setComments(state, posts) {
+            state.comments = comments
         },
         updateLikes(state, { id, likes }) {
             const post = state.posts.find(p => p.id === id)
@@ -33,6 +37,11 @@ export default {
             return fetch('http://localhost:3000/posts')
             .then(res => res.json())
             .then(data => commit('setPosts', data))
+        },
+        async fetchComments({ commit }) {
+            return fetch('http://localhost:3000/comments')
+            .then(res => res.json())
+            .then(data => commit('setComments', data))
         }
     }
 }
