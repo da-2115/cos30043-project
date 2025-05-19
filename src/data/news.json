@@ -1,58 +1,114 @@
 [
-    {
-        "id": 0,
-        "date": "",
-        "title": "",
-        "content": "",
-        "category": ""
-    },
-    {
-        "id": 1,
-        "date": "",
-        "title": "",
-        "content": "",
-        "category": ""
-    },
-    {
-        "id": 2,
-        "date": "",
-        "title": "",
-        "content": "",
-        "category": ""
-    },
-    {
-        "id": 3,
-        "date": "",
-        "title": "",
-        "content": "",
-        "category": ""
-    },
-    {
-        "id": 4,
-        "date": "",
-        "title": "",
-        "content": "",
-        "category": ""
-    },
-    {
-        "id": 5,
-        "date": "",
-        "title": "",
-        "content": "",
-        "category": ""
-    },
-    {
-        "id": 6,
-        "date": "",
-        "title": "",
-        "content": "",
-        "category": ""
-    },
-    {
-        "id": 7,
-        "date": "",
-        "title": "",
-        "content": "",
-        "category": ""
-    }
+  {
+    "id": 0,
+    "date": "2025-05-13",
+    "title": "AI Workshop Announced",
+    "content": "A hands-on workshop on Artificial Intelligence will be held next week in the main lab.",
+    "category": "Events"
+  },
+  {
+    "id": 1,
+    "date": "2025-05-12",
+    "title": "New Python Course Released",
+    "content": "A new introductory Python programming course is now available for all students.",
+    "category": "Courses"
+  },
+  {
+    "id": 2,
+    "date": "2025-05-11",
+    "title": "Hackathon Winners",
+    "content": "Congratulations to the winners of the annual coding hackathon. See the full list on our website.",
+    "category": "Competitions"
+  },
+  {
+    "id": 3,
+    "date": "2025-05-10",
+    "title": "Cybersecurity Seminar",
+    "content": "Join us for a seminar on the latest trends in cybersecurity, featuring industry experts.",
+    "category": "Events"
+  },
+  {
+    "id": 4,
+    "date": "2025-05-09",
+    "title": "Lab Maintenance Scheduled",
+    "content": "The computer labs will be closed for maintenance this Friday from 8am to 12pm.",
+    "category": "Announcements"
+  },
+  {
+    "id": 5,
+    "date": "2025-05-08",
+    "title": "Research Paper Published",
+    "content": "Faculty and students have published a new paper on quantum computing in a leading journal.",
+    "category": "Research"
+  },
+  {
+    "id": 6,
+    "date": "2025-05-07",
+    "title": "Cloud Computing Resources Updated",
+    "content": "Cloud computing resources have been upgraded for all enrolled students.",
+    "category": "Resources"
+  },
+  {
+    "id": 7,
+    "date": "2025-05-06",
+    "title": "Alumni Talk: Careers in Tech",
+    "content": "An alumni guest speaker will share insights about careers in the tech industry.",
+    "category": "Events"
+  },
+  {
+    "id": 8,
+    "date": "2025-05-05",
+    "title": "Exam Timetable Released",
+    "content": "The final exam timetable for computer science courses is now available online.",
+    "category": "Announcements"
+  },
+  {
+    "id": 9,
+    "date": "2025-05-04",
+    "title": "Robotics Club Meeting",
+    "content": "The Robotics Club will meet this Thursday to discuss upcoming projects.",
+    "category": "Clubs"
+  },
+  {
+    "id": 10,
+    "date": "2025-05-03",
+    "title": "Internship Opportunities",
+    "content": "New internship opportunities in software development have been posted on the portal.",
+    "category": "Careers"
+  },
+  {
+    "id": 11,
+    "date": "2025-05-02",
+    "title": "Database Systems Update",
+    "content": "The database systems course has updated its syllabus for the next semester.",
+    "category": "Courses"
+  },
+  {
+    "id": 12,
+    "date": "2025-05-01",
+    "title": "Open Source Contributions",
+    "content": "Students are encouraged to contribute to open source projects as part of their coursework.",
+    "category": "Opportunities"
+  },
+  {
+    "id": 13,
+    "date": "2025-04-30",
+    "title": "New Faculty Member",
+    "content": "We welcome Dr. Smith to the Computer Science department, specializing in machine learning.",
+    "category": "Announcements"
+  },
+  {
+    "id": 14,
+    "date": "2025-04-29",
+    "title": "App Development Contest",
+    "content": "Sign up for the upcoming app development contest and showcase your skills.",
+    "category": "Competitions"
+  },
+  {
+    "id": 15,
+    "date": "2025-04-28",
+    "title": "Linux Workshop",
+    "content": "A beginner-friendly Linux workshop will be held in the computer lab next Monday.",
+    "category": "Events"
+  }
 ]
