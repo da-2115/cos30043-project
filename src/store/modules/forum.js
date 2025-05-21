@@ -10,25 +10,25 @@ export default {
         setPosts(state, posts) {
             state.posts = posts
         },
-        setComments(state, posts) {
+        setComments(state, comments) {
             state.comments = comments
         },
-        updateLikes(state, { id, likes }) {
-            const post = state.posts.find(p => p.id === id)
+        updateLikes(state, { forumPostId, likes }) {
+            const post = state.posts.find(p => p.forumPostId === forumPostId)
             if (post) post.likes = likes
         },
-        updateDislikes(state, { id, dislikes }) {
-            const post = state.posts.find(p => p.id === id)
+        updateDislikes(state, { forumPostId, dislikes }) {
+            const post = state.posts.find(p => p.forumPostId === forumPostId)
             if (post) post.dislikes = dislikes
         }
     },
     getters: {
         getLikes: (state) => (id) => {
-            const post = state.posts.find(p => p.id === id)
+            const post = state.posts.find(p => p.forumPostId === id)
             return post ? post.likes : 0
         },
         getDislikes: (state) => (id) => {
-            const post = state.posts.find(p => p.id === id)
+            const post = state.posts.find(p => p.forumPostId === id)
             return post ? post.dislikes : 0
         }
     },

@@ -11,9 +11,7 @@ CREATE TABLE forumPosts (
 );
 
 CREATE TABLE forumComments (
-    commentId INT, 
     forumPostId INT, 
     commentText varchar(255),
-    PRIMARY KEY (commentId), 
     CONSTRAINT FK_PostComment FOREIGN KEY (forumPostId) REFERENCES forumPosts(forumPostId)
 );

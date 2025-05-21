@@ -39,7 +39,7 @@ app.get('/comments', (req, res) => {
 })
 
 app.post('/likePost', (req, res) => {
-    db.query(`UPDATE forumPosts SET likes=${req.body.likes} WHERE id=${req.body.id}`, (err, results) => {
+    db.query(`UPDATE forumPosts SET likes=${req.body.likes} WHERE forumPostId=${req.body.forumPostId}`, (err, results) => {
         if ( err ) {
             console.log(err);
             return res.status(500).json({ error: err.message })
@@ -50,7 +50,7 @@ app.post('/likePost', (req, res) => {
 })
 
 app.post('/dislikePost', (req, res) => {
-    db.query(`UPDATE forumPosts SET dislikes=${req.body.dislikes} WHERE id=${req.body.id}`, (err, results) => {
+    db.query(`UPDATE forumPosts SET dislikes=${req.body.dislikes} WHERE forumPostId=${req.body.forumPostId}`, (err, results) => {
         if ( err ) {
             console.log(err);
             return res.status(500).json({ error: err.message })
@@ -72,7 +72,7 @@ app.post('/createPost', (req, res) => {
 })
 
 app.post('/createComment', (req, res) => {
-    db.query(`INSERT INTO forumComments VALUES (${req.body.id}, '${req.body.forumPostId}', '${req.body.commentText}'`, (err, results) => {
+    db.query(`INSERT INTO forumComments VALUES (${req.body.forumPostId}, '${req.body.commentText}')`, (err, results) => {
         if ( err ) {
             console.log(err);
             return res.status(500).json({ error: err.message })
