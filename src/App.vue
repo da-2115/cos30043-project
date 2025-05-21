@@ -1,5 +1,5 @@
 <template>
-  <nav v-if="!isAuthenticated"> <!-- Change later back to if isAuthenticated -->
+  <nav>
     <div class="container">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
@@ -9,6 +9,7 @@
           <router-link class="m-1" to="/forum">Forum</router-link>
           <router-link class="m-1" to="/blog">Blog</router-link>
           <!-- Chat feature goes here -->
+          <router-link class="m-1" to="/logout">Logout</router-link>
         </div>
       </div>
     </div>

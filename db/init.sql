@@ -1,17 +1,53 @@
 CREATE DATABASE iddDB;
 USE iddDB;
 
+CREATE TABLE forumCategories (
+    categoryId INT AUTO_INCREMENT PRIMARY KEY,
+    categoryName VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE forumPosts (
-    forumPostId INT, 
-    title varchar(255), 
-    contents varchar(255), 
-    likes INT, 
-    dislikes INT, 
-    PRIMARY KEY(forumPostId)
+    forumPostId INT AUTO_INCREMENT PRIMARY KEY,
+    userPosted VARCHAR(255) NOT NULL,
+    categoryId INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    contents TEXT NOT NULL,
+    likes INT DEFAULT 0,
+    dislikes INT DEFAULT 0,
+    FOREIGN KEY (categoryId) REFERENCES forumCategories(categoryId)
 );
 
 CREATE TABLE forumComments (
-    forumPostId INT, 
-    commentText varchar(255),
-    CONSTRAINT FK_PostComment FOREIGN KEY (forumPostId) REFERENCES forumPosts(forumPostId)
+    commentId INT AUTO_INCREMENT PRIMARY KEY,
+    forumPostId INT NOT NULL,
+    userPosted VARCHAR(255) NOT NULL,
+    commentText TEXT NOT NULL,
+    FOREIGN KEY (forumPostId) REFERENCES forumPosts(forumPostId)
 );
+
+INSERT INTO forumCategories (categoryName) VALUES
+('C'),
+('C++'),
+('Rust'),
+('C#'),
+('Java'),
+('JavaScript'),
+('Kotlin'),
+('Swift'),
+('TypeScript'),
+('SQL'),
+('PHP'),
+('HTML'),
+('CSS'),
+('Scala'),
+('Python'),
+('Ruby'),
+('R'),
+('Go'),
+('AWS'),
+('Azure'),
+('Cisco'),
+('GCP'),
+('Docker'),
+('Kubernetes'),
+('Terraform');
