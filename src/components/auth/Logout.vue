@@ -9,7 +9,7 @@
     name: "Logout",
     mounted() {
         this.$auth0.logout();
-        this.$router.push({ path: '/login' });
+        this.$router.push({ path: '/auth' });
     }
   };
   </script>

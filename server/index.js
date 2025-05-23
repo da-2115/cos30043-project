@@ -1,136 +1,41 @@
-import express from 'express'
-import mysql from 'mysql2'
-import cors from 'cors'
+/*
+  server/index.js
+  COS30043 - Interface Design and Development Final Project
+  Dylan Armstrong 105040962 - 2025 Semester 1
+*/
 
+import express from "express"
+import cors from "cors"
+import posts from "./routes/posts.js"
+import comments from "./routes/comments.js"
+import createPost from "./routes/createPost.js"
+import createComment from "./routes/createComment.js"
+import getPostById from "./routes/getPostsById.js"
+import deletePost from "./routes/deletePost.js"
+import editPost from "./routes/editPost.js"
+import likePost from "./routes/likePost.js"
+import dislikePost from "./routes/dislikePost.js"
+
+// Initialize an express instance, set port number of API to port 3000
 const app = express()
 const PORT = 3000
 
+// Use CORS and JSON
 app.use(cors())
-
-const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'pass12345',
-  database: 'iddDB',
-  multipleStatements: true
-})
-
 app.use(express.json())
 
-app.get('/posts', (req, res) => {
-    db.query('SELECT * FROM forumPosts', (err, results) => {
-        if ( err ) {
-            console.log(err);
-            return res.status(500).json({ error: err.message })
-        }
+// Use all routes as defined under routes folder
+app.use("/posts", posts)
+app.use("/comments", comments)
+app.use("/createPost", createPost)
+app.use("/createComment", createComment)
+app.use("/deletePost", deletePost)
+app.use("/getPost/id", getPostById)
+app.use("/editPost", editPost)
+app.use("/likePost", likePost)
+app.use("/dislikePost", dislikePost)
 
-        res.json(results)
-    })
-})
-
-app.get('/comments', (req, res) => {
-    db.query('SELECT * FROM forumComments', (err, results) => {
-        if ( err ) {
-            console.log(err);
-            return res.status(500).json({ error: err.message })
-        }
-
-        res.json(results)
-    })
-})
-
-app.post('/likePost', (req, res) => {
-    db.query(`UPDATE forumPosts SET likes=${req.body.likes} WHERE forumPostId=${req.body.forumPostId}`, (err, results) => {
-        if ( err ) {
-            console.log(err);
-            return res.status(500).json({ error: err.message })
-        }
-
-        res.json(results)
-    })
-})
-
-app.post('/dislikePost', (req, res) => {
-    db.query(`UPDATE forumPosts SET dislikes=${req.body.dislikes} WHERE forumPostId=${req.body.forumPostId}`, (err, results) => {
-        if ( err ) {
-            console.log(err);
-            return res.status(500).json({ error: err.message })
-        }
-
-        res.json(results)
-    })
-})
-
-app.post("/createPost", (req, res) => {
-    const { userPosted, categoryId, title, contents, likes, dislikes } = req.body;
-
-    if (!userPosted || !categoryId || !title || !contents) {
-        return res.status(400).send("All fields are required");
-    }
-
-    const query = `
-        INSERT INTO forumPosts (userPosted, categoryId, title, contents, likes, dislikes)
-        VALUES (?, ?, ?, ?, ?, ?)
-    `;
-
-    db.query(query, [userPosted, categoryId, title, contents, likes || 0, dislikes || 0], (err, result) => {
-        if (err) {
-            console.error("Error creating post:", err);
-            res.status(500).send("Error creating post");
-        } else {
-            res.status(201).send("Post created successfully");
-        }
-    });
-});
-  app.post("/createComment", (req, res) => {
-    const { forumPostId, userPosted, commentText } = req.body;
-  
-    if (!forumPostId) {
-      return res.status(400).send("forumPostId is required");
-    }
-  
-    const query = `
-      INSERT INTO forumComments (forumPostId, userPosted, commentText)
-      VALUES (?, ?, ?)
-    `;
-  
-    db.query(query, [forumPostId, userPosted, commentText], (err, result) => {
-      if (err) {
-        console.error("Error creating comment:", err);
-        res.status(500).send("Error creating comment");
-      } else {
-        res.status(201).send("Comment created successfully");
-      }
-    });
-  });
-
-app.post('/deletePost', (req, res) => {
-    db.query(`DELETE FROM forumComments WHERE forumPostId=${req.body.forumPostId}; DELETE FROM forumPosts WHERE forumPostId=${req.body.forumPostId}`, (err, results) => {
-        if ( err ) {
-            console.log(err);
-            return res.status(500).json({ error: err.message })
-        }
-
-        res.json(results)
-    })
-})
-
-app.get("/getPosts/:id", (req, res) => {
-    const postId = req.params.id;
-  
-    const query = "SELECT * FROM forumPosts WHERE forumPostId = ?";
-    db.query(query, [postId], (err, results) => {
-      if (err) {
-        console.error("Error fetching post:", err);
-        res.status(500).send("Error fetching post");
-      } else if (results.length === 0) {
-        res.status(404).send("Post not found");
-      } else {
-        res.json(results[0]); // Return the first (and only) result
-      }
-    });
-  });
-
+// Listen on port 3000
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
 })

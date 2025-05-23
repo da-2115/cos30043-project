@@ -4,13 +4,12 @@ import About from './src/components/About.vue'
 import News from './src/components/News.vue'
 import Forum from './src/components/forum/Forum.vue'
 import Blog from './src/components/blog/Blog.vue'
-import Login from './src/components/auth/Login.vue'
-import Register from './src/components/auth/Register.vue'
 import store from './src/store/store'
 import Logout from './src/components/auth/Logout.vue'
 import AdvancedSearch from './src/components/forum/AdvancedSearch.vue'
 import PostDetails from './src/components/forum/PostDetails.vue'
 import PostQuestion from './src/components/forum/PostQuestion.vue'
+import Auth from './src/components/auth/Auth.vue'
 
 const routes = [
   { name: "Home", path: '/', component: Home },
@@ -21,8 +20,7 @@ const routes = [
   { name: "PostDetails", path: '/forum/:id', component: PostDetails, props: route => ({ postId: JSON.parse(route.params.id) }) },
   { name: "PostQuestion", path: '/forum/post', component: PostQuestion },
   { name: "Blog", path: '/blog', component: Blog },
-  { name: "Login", path: '/login', component: Login },
-  { name: "Register", path: '/register', component: Register },
+  { name: "Auth", path: '/auth', component: Auth },
   { name: "Logout", path: '/logout', component: Logout }
 ]
 
@@ -37,7 +35,7 @@ router.beforeEach(async (to, from, next) => {
   
     if (!auth0) {
       console.error('Auth0 instance is undefined!')
-      next({ name: 'Login' })
+      next({ name: 'Auth' })
       return
     }
   
@@ -47,8 +45,8 @@ router.beforeEach(async (to, from, next) => {
       await store.dispatch('auth/checkAuthentication', auth0)
     }
   
-    if (to.name !== 'Login' && !store.state.auth.isAuthenticated) {
-      next({ name: 'Login' })
+    if (to.name !== 'Auth' && !store.state.auth.isAuthenticated) {
+      next({ name: 'Auth' })
     } else {
       next()
     }

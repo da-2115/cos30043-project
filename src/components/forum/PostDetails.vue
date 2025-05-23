@@ -11,6 +11,25 @@
                         Back to Posts
                     </button>
                     <p></p>
+                    <button @click="editingPost = !editingPost" v-if="post.userPosted === this.user.name"
+                        class="btn btn-warning">
+                        {{ editingPost ? 'Discard' : 'Edit' }}
+                    </button>
+                    <div v-if="editingPost">
+                        <form>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" id="title" v-model="post.title" class="form-control" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="contents" class="form-label">Contents</label>
+                                <p>You can use <strong>$$$ code here $$$</strong> for coding markup.</p>
+                                <textarea id="contents" v-model="post.contents" :rows=20
+                                    class="form-control"></textarea>
+                            </div>
+                            <button type="button" @click="editPost(post)" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
                     <button @click="deletePost(post)" v-if="post.userPosted === this.user.name" class="btn btn-warning">
                         Delete
                     </button>
@@ -51,6 +70,7 @@ export default {
         return {
             post: {}, // Holds the post details
             commentInputs: {}, // Holds the comment input for each post
+            editingPost: false
         };
     },
     computed: {
@@ -79,12 +99,38 @@ export default {
                 return ""; // Return an empty string if content is undefined
             }
 
+            const escapeHtml = (str) => {
+                return str
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            };
+
             // Check if the content contains $$$
             const codeRegex = /\$\$\$(.*?)\$\$\$/gs; // Matches text between $$$
             return content.replace(codeRegex, (match, code) => {
-                // Wrap the extracted code in <pre><code> tags
-                return `<pre><code>${code.trim()}</code></pre>`;
+                // Escape HTML characters and wrap the extracted code in <pre><code> tags
+                return `<pre><code>${escapeHtml(code.trim())}</code></pre>`;
             });
+        },
+        editPost(post) {
+            fetch("http://localhost:3000/editPost", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    forumPostId: post.forumPostId,
+                    title: post.title,
+                    contents: post.contents
+                }),
+            })
+                .then(() => {
+                    this.fetchPost(this.postId)
+                })
+                .catch((error) => {
+                    console.error("Error creating comment:", error);
+                });
         },
         createComment(postId) {
             const commentText = this.commentInputs[postId] || "";

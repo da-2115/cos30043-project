@@ -35,11 +35,13 @@
                 </div>
             </div>
         </div>
-        <paginate :model-value="currentPage" :page-count="totalPages" :page-range="2" :click-handler="onPageChange"
+        <paginate v-if="paginatedPosts.length > 0" :model-value="currentPage" :page-count="totalPages" :page-range="2" :click-handler="onPageChange"
             :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'" :page-class="'page-item'"
             :page-link-class="'page-link'" :prev-class="'page-item'" :prev-link-class="'page-link'"
             :next-class="'page-item'" :next-link-class="'page-link'" />
-
+            <div v-else>
+          <p>No posts yet</p>
+        </div>
         <!-- Create Post Button -->
         <button class="btn btn-primary" @click="createPost">Create New Post</button>
     </div>
