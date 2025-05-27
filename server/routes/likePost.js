@@ -6,21 +6,91 @@
 
 import { Router } from "express"
 import db from "../db/db.js"
-
 const router = Router()
 
 router.post("/", (req, res) => {
+  const { forumPostId, username } = req.body
 
-  // Update the forumPosts table with the new amount of likes where the id of the forum post is equal to the one in the request body
+  // Initial query, select from forumSocials (hasLiked and hasDisliked) where the post id and username are equal the request body
   db.query(
-    `UPDATE forumPosts SET likes=${req.body.likes} WHERE forumPostId=${req.body.forumPostId}`,
+    "SELECT hasLiked, hasDisliked FROM forumSocials WHERE forumPostId = ? AND username = ?",
+    [forumPostId, username],
     (err, results) => {
-      if (err) {
-        return res.status(500).json({ error: err.message })
-      }
+      if (err) return res.status(500).json({ error: err.message })
 
-      // Return results JSON object
-      res.json(results)
+      // No record yet: add like
+      if (results.length === 0) {
+        db.query(
+          "UPDATE forumPosts SET likes = likes + 1 WHERE forumPostId = ?",
+          [forumPostId],
+          (err2) => {
+            if (err2) return res.status(500).json({ error: err2.message })
+            db.query(
+              `INSERT INTO forumSocials (forumPostId, username, hasLiked, hasDisliked)
+               VALUES (?, ?, TRUE, FALSE)`,
+              [forumPostId, username],
+              (err3) => {
+                if (err3) return res.status(500).json({ error: err3.message })
+                res.json({ success: true, like: 1, dislike: 0 })
+              }
+            )
+          }
+        )
+      }
+      // Already liked: remove like (toggle off)
+      else if (results[0].hasLiked) {
+        db.query(
+          "UPDATE forumPosts SET likes = likes - 1 WHERE forumPostId = ? AND likes > 0",
+          [forumPostId],
+          (err2) => {
+            if (err2) return res.status(500).json({ error: err2.message })
+            db.query(
+              `UPDATE forumSocials SET hasLiked = FALSE WHERE forumPostId = ? AND username = ?`,
+              [forumPostId, username],
+              (err3) => {
+                if (err3) return res.status(500).json({ error: err3.message })
+                res.json({ success: true, like: 0, dislike: 0 })
+              }
+            )
+          }
+        )
+      }
+      // Already disliked: remove dislike, add like
+      else if (results[0].hasDisliked) {
+        db.query(
+          "UPDATE forumPosts SET dislikes = dislikes - 1, likes = likes + 1 WHERE forumPostId = ? AND dislikes > 0",
+          [forumPostId],
+          (err2) => {
+            if (err2) return res.status(500).json({ error: err2.message })
+            db.query(
+              `UPDATE forumSocials SET hasLiked = TRUE, hasDisliked = FALSE WHERE forumPostId = ? AND username = ?`,
+              [forumPostId, username],
+              (err3) => {
+                if (err3) return res.status(500).json({ error: err3.message })
+                res.json({ success: true, like: 1, dislike: 0 })
+              }
+            )
+          }
+        )
+      }
+      // Neither: add like
+      else {
+        db.query(
+          "UPDATE forumPosts SET likes = likes + 1 WHERE forumPostId = ?",
+          [forumPostId],
+          (err2) => {
+            if (err2) return res.status(500).json({ error: err2.message })
+            db.query(
+              `UPDATE forumSocials SET hasLiked = TRUE, hasDisliked = FALSE WHERE forumPostId = ? AND username = ?`,
+              [forumPostId, username],
+              (err3) => {
+                if (err3) return res.status(500).json({ error: err3.message })
+                res.json({ success: true, like: 1, dislike: 0 })
+              }
+            )
+          }
+        )
+      }
     }
   )
 })

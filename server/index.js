@@ -15,6 +15,7 @@ import deletePost from "./routes/deletePost.js"
 import editPost from "./routes/editPost.js"
 import likePost from "./routes/likePost.js"
 import dislikePost from "./routes/dislikePost.js"
+import socials from "./routes/socials.js"
 
 // Initialize an express instance, set port number of API to port 3000
 const app = express()
@@ -34,6 +35,7 @@ app.use("/getPost/id", getPostById)
 app.use("/editPost", editPost)
 app.use("/likePost", likePost)
 app.use("/dislikePost", dislikePost)
+app.use("/socials", socials)
 
 // Listen on port 3000
 app.listen(PORT, () => {

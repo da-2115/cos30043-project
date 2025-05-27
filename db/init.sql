@@ -2,9 +2,7 @@
   db/init.sql
   COS30043 - Interface Design and Development Final Project
   Dylan Armstrong 105040962 - 2025 Semester 1
-*/
 
-/*
  PURPOSE: To create the initial database, tables and forum category data for the MySQL Database
 */
 
@@ -25,6 +23,16 @@ CREATE TABLE forumPosts (
     likes INT DEFAULT 0,
     dislikes INT DEFAULT 0,
     FOREIGN KEY (categoryId) REFERENCES forumCategories(categoryId)
+);
+
+CREATE TABLE forumSocials (
+    forumSocialId INT AUTO_INCREMENT PRIMARY KEY,
+    forumPostId INT NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    hasLiked BOOL DEFAULT FALSE,
+    hasDisliked BOOL DEFAULT FALSE,
+    UNIQUE KEY unique_vote (forumPostId, username),
+    FOREIGN KEY (forumPostId) REFERENCES forumPosts(forumPostId)
 );
 
 CREATE TABLE forumComments (
