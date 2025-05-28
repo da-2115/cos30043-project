@@ -38,11 +38,9 @@ const router = createRouter({
 // Check authentication
 router.beforeEach(async (to, from, next) => {
     const auth0 = router.auth0
-    console.log('Auth0 Instance in router.js:', auth0)
-  
+
     if (!auth0) {
-      console.error('Auth0 instance is undefined!')
-      next({ name: 'Auth' })
+      next({ name: 'Home' })
       return
     }
   

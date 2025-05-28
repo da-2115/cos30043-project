@@ -3,7 +3,7 @@
   COS30043 - Interface Design and Development Final Project
   Dylan Armstrong 105040962 - 2025 Semester 1
 
- PURPOSE: To create the initial database, tables and forum category data for the MySQL Database
+  PURPOSE: To create the initial database, tables and forum category data for the MySQL Database
 */
 
 CREATE DATABASE iddDB;

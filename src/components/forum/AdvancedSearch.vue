@@ -12,6 +12,8 @@
           <div class="card-body">
             <h5 class="card-title">Search</h5>
             <input
+              v-highlight="searchParams"
+              v-focus
               class="form-control"
               type="text"
               v-model="searchParams"
@@ -53,8 +55,8 @@
             class="card mb-3"
           >
             <div class="card-body">
-              <h5 class="card-title">{{ post.title }}</h5>
-              <p class="card-text">{{ post.contents }}</p>
+              <h5 class="card-title" v-highlight="searchParams">{{ post.title }}</h5>
+              <p class="card-text" v-highlight="searchParams">{{ post.contents }}</p>
               <p class="card-text text-muted">
                 Posted by: {{ post.userPosted }}
               </p>
@@ -101,9 +103,16 @@
 <script>
 import { mapState, mapActions } from "vuex"
 import VuejsPaginateNext from "vuejs-paginate-next"
+import vHighlight from "../../directives/v-highlight"
+import vFocus from "../../directives/v-focus"
 
 export default {
   name: "AdvancedSearch",
+  // Register custom directives
+  directives: {
+    highlight: vHighlight,
+    focus: vFocus
+  },
   components: {
     // Pagination component
     paginate: VuejsPaginateNext,
@@ -241,7 +250,7 @@ export default {
   watch: {
     searchParams() {
       this.currentPage = 1
-    }
+    },
   },
 }
 </script>

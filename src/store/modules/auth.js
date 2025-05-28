@@ -23,9 +23,6 @@ export default {
   // Asynchronous actions for authentication
   actions: {
     async checkAuthentication({ commit }, auth0) {
-      console.log("Auth0 in checkAuthentication:", auth0) // Debugging
-      console.log("Auth0 methods:", Object.keys(auth0 || {})) // Debugging
-
       try {
         // Access the isAuthenticated property
         const isAuthenticated = auth0.isAuthenticated
@@ -34,7 +31,6 @@ export default {
         if (isAuthenticated) {
           // Call the getUser function
           const user = await auth0.user
-          console.log("User Info:", user) // Debugging
           commit("setUser", user)
         }
       } catch (error) {

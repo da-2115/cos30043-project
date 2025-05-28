@@ -41,6 +41,3 @@ app.mount("#app")
 
 // Pass the Auth0 instance to the router after mounting
 router.auth0 = app.config.globalProperties.$auth0
-
-// Debugging: Log the Auth0 instance
-console.log("Auth0 Instance in main.js:", router.auth0)

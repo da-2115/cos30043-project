@@ -83,6 +83,7 @@
           </div>
           <p>Leave a comment</p>
           <textarea
+            v-focus
             class="form-control"
             v-model="commentInputs[postId]"
           ></textarea>
@@ -107,9 +108,13 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex"
 import { mapMutations } from "vuex/dist/vuex.cjs.js"
+import vFocus from "../../directives/v-focus"
 
 export default {
   name: "PostDetails",
+  directives: {
+    focus: vFocus
+  },
   props: {
     postId: {
       type: Number,
